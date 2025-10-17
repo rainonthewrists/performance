@@ -1,0 +1,68 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Main Page</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="d-arrow" data-name="D ARROW">
+    <svg width="95" height="50" viewBox="0 0 95 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <path id="arrow-line" d="M17.9786 14.7157L46.4826 39.998C46.7692 40.2521 47.2004 40.2521 47.4869 39.998L75.991 14.7157"/>
+      <path id="ellipse" d="M47.5 1.5C60.4232 1.5 72.0486 4.26 80.3887 8.64941C88.798 13.0754 93.5 18.9304 93.5 25C93.5 31.0696 88.798 36.9246 80.3887 41.3506C72.0486 45.74 60.4232 48.5 47.5 48.5C34.5768 48.5 22.9514 45.74 14.6113 41.3506C6.20197 36.9246 1.5 31.0696 1.5 25C1.5 18.9304 6.20197 13.0754 14.6113 8.64941C22.9514 4.26 34.5768 1.5 47.5 1.5Z"/>
+    </svg>
+  </div>
+
+  <div id="text-container"></div>
+
+  <div class="alphabet" data-name="ALPHABET">
+    <ul id="alphabet-list"></ul>
+  </div>
+
+  <div class="d-logo" data-name="D LOGO"></div>
+
+  <div id="scrollable"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

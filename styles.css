@@ -1,0 +1,143 @@
+body {
+  margin: 0;
+  background: #f4f4f4;
+  font-family: Arial, sans-serif;
+  min-height: 200vh;
+  overflow-x: hidden;
+  text-transform: uppercase;
+  cursor: default;
+}
+
+.d-arrow {
+  position: fixed;
+  width: 96.77vw;
+  aspect-ratio: 95 / 50;
+  left: 1.61vw;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.1s linear;
+}
+
+.d-arrow svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.d-arrow path {
+  stroke: #1EFF00;
+  stroke-width: 3;
+  fill: none;
+}
+
+.d-logo {
+  position: fixed;
+  left: calc(8.333% - 4.17vw);
+  top: 0.52vw;
+  width: 5.21vw;
+  height: 2.14vw;
+  transform: translateX(-50%);
+}
+
+.alphabet {
+  position: fixed;
+  left: 1.61vw;
+  top: calc(0.52vw + 48px);
+  width: 96.77vw;
+  opacity: 0;
+  transition: opacity 0s linear;
+}
+
+.alphabet ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.alphabet li {
+  font-size: 20px;
+  line-height: 24px;
+  color: #678486;
+  text-transform: uppercase;
+  width: 100%;
+  padding: 0vw 0vw;
+  box-sizing: border-box;
+}
+
+.alphabet li:has(a) {
+  color: #000;
+}
+
+.alphabet a {
+  color: #000;
+  text-decoration: none;
+  transition: background-color 0s;
+  display: block;
+  position: relative;
+}
+
+.alphabet a:hover {
+  background-color: #1eff00;
+}
+
+.alphabet:not(.visible) a {
+  pointer-events: none;
+}
+
+.alphabet a .artist,
+.alphabet a .symbol,
+.alphabet a .anim-symbols {
+  opacity: 0;
+  transition: opacity 0s;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+}
+
+.alphabet a .artist {
+  left: calc(100% / 3);
+  white-space: pre;
+}
+
+.alphabet a .symbol {
+  right: 0;
+}
+
+.alphabet a:hover .artist,
+.alphabet a:hover .symbol,
+.alphabet a:hover .anim-symbols {
+  opacity: 1;
+}
+
+.anim-char {
+  font-size: 20px;
+  line-height: 24px;
+  color: #000;
+  text-transform: uppercase;
+  display: inline-block;
+  will-change: transform;
+}
+
+#text-container {
+  position: fixed;
+  top: 0.52vw;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 0.52vw);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.char {
+  position: absolute;
+  font-size: 20px;
+  line-height: 24px;
+  white-space: pre;
+  will-change: transform, top;
+  pointer-events: none;
+  color: #678486;
+}
+
+#scrollable {
+  width: 100%;
+}
