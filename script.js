@@ -4,8 +4,7 @@ const CONFIG = {
   fontSize: 20,
   lineHeight: 24,
   rowHeight: 24,
-  sortStartY: 48,
-  hoverDuration: 3000
+  sortStartY: 48
 };
 
 const mainText = `Performance Against Benchmarks inhabits the margins of corporate, goal-driven AI, and feeding on its structures — without feeding into its logic. Rather than staging a revolution through acts of resistance, which will inevitably fail, works of the pavilion adopt strategies of quiet co-existence: parasitic, symbiotic, and persistently askew or wrong. Through translation errors, skewed distances, reassembled fragments, and intimate misalignments, each work folds a glitch into the system’s fabric. These are not large refusals to ever use the AI, but small, structural recalibrations — shifts in tone, rhythm, and relation that open up spaces where human and machine share an uneasy, generative terrain. Here, AI is not an engine of optimisation, but a material subject to drift, mistranslation, and poetic misuse — its outputs worn out, its frameworks discreetly rewritten. The title does exactly that – borrowed from the corporate lexicon, where 'performance against benchmarks' measures productivity and compliance, here it is interpreted literary: 'to perform' – to play, to improvise, to wander; to be 'against' does not just measure relation, but becomes a preposition of refuse, of pressing back, testing the edges of any rule and benchmark.`;
@@ -26,8 +25,8 @@ const titles = [
   { work: "select important things", artist: "Jane Frances Dunlop", symbols: "◉⍍◎▣", url: "./select-important-things/" }
 ];
 
-const textContainer = document.getElementById('text-container');
-const scrollable = document.getElementById('scrollable');
+const canvas = document.getElementById('text-canvas');
+const ctx = canvas.getContext('2d');
 
 let chars = [];
 let charPositions = [];
@@ -40,12 +39,11 @@ let charNumSub = {};
 let rowInfo = [];
 let leftRight = {};
 let rowsWithTitles = new Set();
-let animationReq = null;
-let hoveredRow = -1;
-let lastHover = 0;
-let hoveredLink = null;
-let lastSymbolHover = 0;
 const elWidthCache = new Map();
+let lastProgress = -1;
+let isMobile = false;
+let dpr = 1;
+let animationReq = null;
 
 function lerp(start, end, t) {
   return start + (end - start) * t;
@@ -64,25 +62,23 @@ function shuffle(array) {
 
 function getTextWidth(text) {
   if (elWidthCache.has(text)) return elWidthCache.get(text);
-  const span = document.createElement('span');
-  span.style.font = `${CONFIG.fontSize}px Arial, sans-serif`;
-  span.style.position = 'absolute';
-  span.style.visibility = 'hidden';
-  span.style.whiteSpace = 'nowrap';
-  span.innerHTML = text.replace(/ /g, '&nbsp;');
-  document.body.appendChild(span);
-  const width = span.offsetWidth;
-  document.body.removeChild(span);
+  const width = ctx.measureText(text).width;
   elWidthCache.set(text, width);
   return width;
 }
 
 function computeLayoutParams() {
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = canvas.offsetHeight * dpr;
+  ctx.scale(dpr, dpr);
+  ctx.font = `${CONFIG.fontSize}px Arial, sans-serif`;
+  ctx.textBaseline = 'top';
+
   marginLeftPx = Math.round(window.innerWidth * 0.0161);
   rightMarginPx = marginLeftPx;
   spaceWidth = getTextWidth(' ');
   charWidth = getTextWidth('A');
-  scrollable.style.height = `${window.innerHeight * 2}px`;
 }
 
 function buildTitleAssignments() {
@@ -138,67 +134,16 @@ function generateAlphabetList() {
     if (info.hasTitle) {
       const link = document.createElement('a');
       link.href = info.title.url;
-
-      const workSpan = document.createElement('span');
-      workSpan.className = 'work';
-      workSpan.textContent = info.title.work;
-
-      const artistSpan = document.createElement('span');
-      artistSpan.className = 'artist';
-      artistSpan.textContent = info.title.artist;
-
-      const animSymbolsSpan = document.createElement('span');
-      animSymbolsSpan.className = 'anim-symbols';
-      info.title.symbols.split('').forEach((char, idx) => {
-        const charSpan = document.createElement('span');
-        charSpan.className = 'anim-char';
-        charSpan.textContent = char;
-        charSpan.dataset.idx = idx;
-        animSymbolsSpan.appendChild(charSpan);
-      });
-
-      const symbolSpan = document.createElement('span');
-      symbolSpan.className = 'symbol';
-      symbolSpan.textContent = '◍';
-
-      link.appendChild(workSpan);
-      link.appendChild(artistSpan);
-      link.appendChild(animSymbolsSpan);
-      link.appendChild(symbolSpan);
-
+      link.textContent = info.title.work;
       li.appendChild(link);
-
-      link.addEventListener('mouseenter', () => {
-        hoveredLink = link;
-        lastSymbolHover = Date.now();
-      });
-
-      link.addEventListener('mouseleave', () => {
-        hoveredLink = null;
-        const animChars = link.querySelectorAll('.anim-char');
-        animChars.forEach(el => {
-          el.style.transform = 'translateX(0px)';
-        });
-      });
     } else {
       li.textContent = info.keyForLi;
     }
-
-    li.addEventListener('mouseenter', () => {
-      hoveredRow = parseInt(li.dataset.row);
-      lastHover = Date.now();
-    });
-
-    li.addEventListener('mouseleave', () => {
-      hoveredRow = -1;
-    });
-
     alphabetList.appendChild(li);
   });
 }
 
 function createChars() {
-  textContainer.querySelectorAll('.char').forEach(node => node.remove());
   chars = [];
   charPositions = [];
 
@@ -207,49 +152,43 @@ function createChars() {
   let currentY = 0;
   const indent = window.innerWidth * 0.0625;
   currentX += indent;
-  const fragment = document.createDocumentFragment();
   let charIndex = 0;
 
   for (const token of tokens) {
-    const tokenWidth = getTextWidth(token.replace(/\s/g, ' '));
+    const tokenUpper = token.toUpperCase();
+    const tokenWidth = getTextWidth(tokenUpper);
     if (currentX + tokenWidth > window.innerWidth - rightMarginPx) {
       currentY += CONFIG.lineHeight;
       currentX = marginLeftPx;
     }
 
     for (const character of token) {
-      const span = document.createElement('span');
-      span.className = 'char';
-      span.innerHTML = character === ' ' ? '&nbsp;' : character;
-      span.dataset.char = character;
-      span.dataset.originalY = currentY;
-      span.style.left = `${currentX}px`;
-      span.style.top = `${currentY}px`;
-
+      const upperChar = character.toUpperCase();
+      const text = upperChar === ' ' ? ' ' : upperChar;
       const type = charIndex < CONFIG.titleText.length ? 'title' :
                    charIndex < CONFIG.titleText.length + mainText.substring(CONFIG.titleText.length).length ? 'rest' : 'scroll';
-      span.dataset.type = type;
-      if (type === 'scroll') span.style.color = '#1eff00';
-
-      fragment.appendChild(span);
-      const width = getTextWidth(character === ' ' ? ' ' : character);
-      charPositions.push({ x: currentX, y: currentY, w: width });
-      chars.push(span);
-      currentX += width;
+      const obj = {
+        text,
+        x: currentX,
+        y: currentY,
+        type,
+        char: upperChar,
+        width: getTextWidth(text)
+      };
+      chars.push(obj);
+      charPositions.push({ x: currentX, y: currentY, w: obj.width });
+      currentX += obj.width;
       charIndex++;
     }
   }
-
-  textContainer.appendChild(fragment);
 }
 
 function assignSubRows() {
   const byKey = {};
-  chars.forEach((span, i) => {
-    if (span.dataset.type === 'scroll') return;
-    const character = span.dataset.char.toUpperCase();
-    const key = /[A-Z]/.test(character) ? character : ((character !== ' ' && character.trim() !== '') ? '•' : null);
-    if (key) (byKey[key] = byKey[key] || []).push({ el: span, idx: i });
+  chars.forEach((obj, i) => {
+    if (obj.type === 'scroll') return;
+    const key = /[A-Z]/.test(obj.char) ? obj.char : ((obj.char !== ' ' && obj.char.trim() !== '') ? '•' : null);
+    if (key) (byKey[key] = byKey[key] || []).push({ obj, idx: i });
   });
 
   for (const key in byKey) {
@@ -264,97 +203,58 @@ function assignSubRows() {
       const count = perSub + (subIndex < extra ? 1 : 0);
       for (let c = 0; c < count; c++) {
         const item = array[pointer++];
-        item.el.dataset.subRow = subIndex;
-        item.el.dataset.targetRow = charToRowStart[key] + subIndex;
+        item.obj.subRow = subIndex;
+        item.obj.targetRow = charToRowStart[key] + subIndex;
       }
     }
   }
 }
 
-function positionElements() {
-  const links = document.querySelectorAll('.alphabet a');
-  links.forEach(link => {
-    const artist = link.querySelector('.artist');
-    const symbol = link.querySelector('.symbol');
-    const animSymbols = link.querySelector('.anim-symbols');
-
-    const linkRect = link.getBoundingClientRect();
-    const artistRect = artist.getBoundingClientRect();
-    const symbolRect = symbol.getBoundingClientRect();
-
-    const artistLeft = artistRect.left - linkRect.left;
-    const artistWidth = artistRect.width;
-    const symbolLeft = symbolRect.left - linkRect.left;
-
-    const gap = symbolLeft - (artistLeft + artistWidth);
-    const animWidth = animSymbols.offsetWidth;
-    animSymbols.style.left = `${artistLeft + artistWidth + (gap - animWidth) / 2}px`;
-  });
-}
-
-function animateSymbols() {
-  if (hoveredLink) {
-    const time = (Date.now() - lastSymbolHover) % CONFIG.hoverDuration;
-    const phase = time / CONFIG.hoverDuration * Math.PI * 2;
-    const animChars = hoveredLink.querySelectorAll('.anim-char');
-    animChars.forEach((el, i) => {
-      const deltaX = Math.round(Math.sin(phase + i * 0.8) * 6) * charWidth;
-      el.style.transform = `translateX(${deltaX}px)`;
-    });
-  }
-  requestAnimationFrame(animateSymbols);
-}
-
-function animateChars() {
+function updateChars() {
   const scrollY = window.scrollY;
   const progress = clamp(scrollY / window.innerHeight, 0, 1);
 
-  chars.forEach((el, i) => {
-    const type = el.dataset.type;
-    let targetY = parseInt(el.dataset.originalY, 10);
+  if (progress === lastProgress || (isMobile && Math.abs(progress - lastProgress) < 0.02)) {
+    animationReq = requestAnimationFrame(updateChars);
+    return;
+  }
+
+  lastProgress = progress;
+
+  ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+
+  chars.forEach((obj, i) => {
+    const type = obj.type;
+    const originalY = obj.y;
+    const originalX = obj.x;
+    let targetY = originalY;
     let vis = 'visible';
     let color = type === 'scroll' ? '#1eff00' : (progress > 0 && type === 'title' ? '#000' : '#678486');
-    let transX = 0;
 
     if (type === 'title') {
+      // stays the same
     } else if (type === 'scroll') {
       vis = progress > 0 ? 'hidden' : 'visible';
-    } else if (type === 'rest' && el.dataset.targetRow != null) {
-      const sortY = parseInt(el.dataset.targetRow, 10) * CONFIG.rowHeight + CONFIG.sortStartY;
-      targetY = lerp(targetY, sortY, progress);
-      targetY = Math.round(targetY / CONFIG.rowHeight) * CONFIG.rowHeight;
-      const row = parseInt(el.dataset.targetRow);
+    } else if (type === 'rest' && obj.targetRow != null) {
+      const sortY = obj.targetRow * CONFIG.rowHeight + CONFIG.sortStartY;
+      let lerped = lerp(originalY, sortY, progress);
+      targetY = Math.round(lerped / CONFIG.rowHeight) * CONFIG.rowHeight;
+      const row = obj.targetRow;
       const posX = charPositions[i].x;
-      const w = charPositions[i].w;
       if (progress > 0.9) {
         let hide = false;
         if (leftRight[row] && posX < leftRight[row]) hide = true;
-        if (hoveredRow === row && rowsWithTitles.has(row)) hide = true;
         vis = hide ? 'hidden' : 'visible';
       }
     }
 
-    el.style.top = `${targetY}px`;
-    el.style.visibility = vis;
-    el.style.color = color;
-    el.style.transform = `translateX(${transX}px)`;
+    if (vis === 'visible') {
+      ctx.fillStyle = color;
+      ctx.fillText(obj.text, originalX, targetY);
+    }
   });
 
-  if (hoveredRow >= 0 && progress > 0.9 && !rowsWithTitles.has(hoveredRow)) {
-    const time = (Date.now() - lastHover) % CONFIG.hoverDuration;
-    const phase = time / CONFIG.hoverDuration * Math.PI * 2;
-    chars.forEach((el, i) => {
-      if (parseInt(el.dataset.targetRow) === hoveredRow && el.dataset.type === 'rest') {
-        const deltaX = Math.round(Math.sin(phase + i * 0.3) * 3) * charWidth;
-        let finalX = charPositions[i].x + deltaX;
-        finalX = clamp(finalX, marginLeftPx, window.innerWidth - rightMarginPx - charPositions[i].w);
-        el.style.transform = `translateX(${finalX - charPositions[i].x}px)`;
-        el.style.visibility = 'visible';
-      }
-    });
-  }
-
-  animationReq = requestAnimationFrame(animateChars);
+  animationReq = requestAnimationFrame(updateChars);
 }
 
 function updateScrollEffects() {
@@ -379,7 +279,7 @@ function updateScrollEffects() {
   const newWidth = lerp(initialWidth, finalWidth, progress);
   const newHeight = newWidth * (50 / 95);
   const newLeft = (width - newWidth) / 2;
-  const marginBottom = width * 0.0052; // 0.52vw
+  const marginBottom = width * 0.0052;
   const initialTop = height / 2;
   const finalTop = height - newHeight - marginBottom;
   const newTop = lerp(initialTop, finalTop, progress);
@@ -397,7 +297,6 @@ const rebuildAll = () => {
   computeLayoutParams();
   createChars();
   assignSubRows();
-  positionElements();
   updateScrollEffects();
 };
 
@@ -407,18 +306,16 @@ const onResize = () => {
 };
 
 const init = () => {
+  isMobile = window.innerWidth < 768 || /Mobi|Android/i.test(navigator.userAgent);
   computeLayoutParams();
   buildTitleAssignments();
   generateAlphabetList();
   createChars();
   assignSubRows();
-  positionElements();
   window.addEventListener('resize', onResize, { passive: true });
   window.addEventListener('scroll', updateScrollEffects, { passive: true });
-  document.addEventListener('mouseleave', () => { hoveredRow = -1; });
   if (animationReq) cancelAnimationFrame(animationReq);
-  animateSymbols();
-  animationReq = requestAnimationFrame(animateChars);
+  animationReq = requestAnimationFrame(updateChars);
   updateScrollEffects();
 };
 
