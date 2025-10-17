@@ -16,6 +16,8 @@ body {
   top: 50%;
   transform: translateY(-50%);
   transition: all 0.1s linear;
+  z-index: 10;
+  pointer-events: none;
 }
 
 .d-arrow svg {
@@ -37,6 +39,7 @@ body {
   width: 5.21vw;
   height: 2.14vw;
   transform: translateX(-50%);
+  z-index: 10;
 }
 
 .alphabet {
@@ -46,6 +49,7 @@ body {
   width: 96.77vw;
   opacity: 0;
   transition: opacity 0s linear;
+  z-index: 5;
 }
 
 .alphabet ul {
@@ -84,60 +88,12 @@ body {
   pointer-events: none;
 }
 
-.alphabet a .artist,
-.alphabet a .symbol,
-.alphabet a .anim-symbols {
-  opacity: 0;
-  transition: opacity 0s;
-  position: absolute;
-  top: 0;
-  white-space: nowrap;
-}
-
-.alphabet a .artist {
-  left: calc(100% / 3);
-  white-space: pre;
-}
-
-.alphabet a .symbol {
-  right: 0;
-}
-
-.alphabet a:hover .artist,
-.alphabet a:hover .symbol,
-.alphabet a:hover .anim-symbols {
-  opacity: 1;
-}
-
-.anim-char {
-  font-size: 20px;
-  line-height: 24px;
-  color: #000;
-  text-transform: uppercase;
-  display: inline-block;
-  will-change: transform;
-}
-
-#text-container {
+#text-canvas {
   position: fixed;
   top: 0.52vw;
   left: 0;
   width: 100%;
   height: calc(100vh - 0.52vw);
-  overflow: hidden;
   pointer-events: none;
-}
-
-.char {
-  position: absolute;
-  font-size: 20px;
-  line-height: 24px;
-  white-space: pre;
-  will-change: transform, top;
-  pointer-events: none;
-  color: #678486;
-}
-
-#scrollable {
-  width: 100%;
+  z-index: 1;
 }
