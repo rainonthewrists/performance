@@ -1,17 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Main Page</title>
-  <script src="https://flackr.github.io/scroll-timeline/dist/scroll-timeline.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
+  <script src="https://flackr.github.io/scroll-timeline/dist/scroll-timeline.js"></script>
+  <link rel="stylesheet" href="/styles/reset.css">
+  <link rel="stylesheet" href="/styles/styles.css">
+  <title>Performance Against Benchmarks</title>
+  <link rel="icon" type="image/png" href="/styles/favicon.png">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="//unpkg.com">
+  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="//html2canvas.hertzen.com">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://html2canvas.hertzen.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="prefetch" href="/focus/" as="document">
+  <link rel="prefetch" href="/kaoyao/" as="document">
+  <link rel="prefetch" href="/code-for-iframes/focus/index.html" as="document">
+  <link rel="prefetch" href="/code-for-iframes/kaoyao/index.html" as="document">
+  <style>
+    body { background: #f4f4f4; font-family: Arial, sans-serif; font-size: clamp(16px, 1.35vw, 30px); line-height: 123%; min-height: 200vh; overflow-x: hidden; margin: 0; }
+    canvas { position: fixed; top: 10px; left: 0; width: 100%; z-index: -1; }
+    #scrollable { width: 100%; min-height: 200vh; }
+  </style>
 </head>
 <body>
-  <img src="PAB-logo.svg" alt="Logo" class="logo">
-  <img src="arrow-icon.svg" alt="" class="arrow" aria-hidden="true" width="95" height="50">
   <canvas id="main-canvas"></canvas>
   <div id="scrollable"></div>
+  <footer>
+    <div class="logos">
+      <img style="width: 104px; margin-top: 7px;" src="/styles/WRONG LOGO.png" alt="logo wrong biennale">
+      <img style="width: 170px;" src="/styles/GREENWICH LOGO.png" alt="logo greenwich university">
+    </div>
+    <div>
+      <p><a class="grey" href="/essays">essays</a></p>
+      <p><a class="current" href="/">works</a></p>
+      <p><a class="grey" href="/about">about</a></p>
+    </div>
+  </footer>
+  <script src="/scripts/prefetch-heavy.js"></script>
+  <script src="/scripts/mainpage.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
