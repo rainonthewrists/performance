@@ -31,7 +31,7 @@ canvas {
   --arrow-bottom-offset: 30px;
   --arrow-aspect-factor: calc(25 / 95);
   --arrow-final-top: calc(100vh - var(--arrow-bottom-offset) - calc(var(--arrow-size-after-scroll) * var(--arrow-aspect-factor)));
- 
+
   position: fixed;
   left: 50%;
   width: 100%;
@@ -59,14 +59,13 @@ canvas {
 }
 @media screen and (max-width: 800px) {
   .logo { display: none; }
- 
+
   .arrow {
     --arrow-side-padding: 10px;
     --arrow-size-after-scroll: 95px;
     --arrow-final-top: 620px;
     animation-name: arrow-animation-mobile;
   }
-
   @keyframes arrow-animation-mobile {
     from {
       width: calc(100% - calc(var(--arrow-side-padding) * 2));
