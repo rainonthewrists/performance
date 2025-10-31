@@ -3,27 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Main Page</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="/styles/reset.css">
+  <link rel="stylesheet" href="/styles/styles.css">
+  
+  <title>Performance Against Benchmarks</title>
+  <link rel="icon" type="image/png" href="/styles/favicon.png">
+
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="//unpkg.com">
+  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="//html2canvas.hertzen.com">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://html2canvas.hertzen.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+
+  <link rel="prefetch" href="/focus/" as="document">
+  <link rel="prefetch" href="/kaoyao/" as="document">
+  <link rel="prefetch" href="/code-for-iframes/focus/index.html" as="document">
+  <link rel="prefetch" href="/code-for-iframes/kaoyao/index.html" as="document">
+
+  <style>
+    canvas { position: fixed; top: 10px; left: 0; width: 100%; }
+    #scrollable { width: 100%; }
+  </style>
 </head>
-<body>
-  <div class="d-arrow" data-name="D ARROW">
-    <svg width="95" height="50" viewBox="0 0 95 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-      <path id="arrow-line" d="M17.9786 14.7157L46.4826 39.998C46.7692 40.2521 47.2004 40.2521 47.4869 39.998L75.991 14.7157"/>
-      <path id="ellipse" d="M47.5 1.5C60.4232 1.5 72.0486 4.26 80.3887 8.64941C88.798 13.0754 93.5 18.9304 93.5 25C93.5 31.0696 88.798 36.9246 80.3887 41.3506C72.0486 45.74 60.4232 48.5 47.5 48.5C34.5768 48.5 22.9514 45.74 14.6113 41.3506C6.20197 36.9246 1.5 31.0696 1.5 25C1.5 18.9304 6.20197 13.0754 14.6113 8.64941C22.9514 4.26 34.5768 1.5 47.5 1.5Z"/>
-    </svg>
-  </div>
 
-  <canvas id="text-canvas"></canvas>
+<body style="margin: 0; background: #f4f4f4; font-family: Arial, sans-serif; min-height: 200vh; overflow-x: hidden;">
+  <!-- <a href="/" class="logo"></a> -->
+  <canvas id="main-canvas"></canvas>
+  <div id="scrollable"></div>
 
-  <div class="alphabet" data-name="ALPHABET">
-    <ul id="alphabet-list"></ul>
-  </div>
+  <footer>
+    <div class="logos">
+      <img style="width: 104px; margin-top: 7px;" src="/styles/WRONG LOGO.png" alt="logo wrong biennale">
+      <img style="width: 170px;" src="/styles/GREENWICH LOGO.png" alt="logo greenwich university">
+    </div>
+    <div>
+      <p><a class="grey" href="/essays">essays</a></p>
+      <p><a class="current" href="/">works</a></p>
+      <p><a class="grey" href="/about">about</a></p>
+    </div>
+  </footer>
 
-  <div class="d-logo" data-name="D LOGO"></div>
+  <script src="/scripts/mainpage.js"></script>
 
-  <div id="scrollable" style="height: 200vh;"></div>
-
-  <script src="script.js"></script>
 </body>
 </html>
