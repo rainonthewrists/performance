@@ -381,7 +381,7 @@ p{
 
         top: calc(
             (1 - var(--scroll-progress)) * (50vh - 100px) +
-            var(--scroll-progress) * 620px
+            var(--scroll-progress) * 610px
         );
     }
 }
