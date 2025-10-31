@@ -354,9 +354,10 @@ window.addEventListener('resize', () => { clearTimeout(window.__resizeTimer); wi
 
 const arrow = document.querySelector('.arrow');
 const updateScrollProgress = () => {
-    const h = document.documentElement;
-    const p = (window.pageYOffset || h.scrollTop) / (h.scrollHeight - window.innerHeight);
-    arrow.style.setProperty('--scroll-progress', Math.max(0, Math.min(1, p || 0)));
+  const h = document.documentElement;
+  const p = (window.pageYOffset || h.scrollTop) / (h.scrollHeight - window.innerHeight);
+  arrow.style.setProperty('--scroll-progress', Math.max(0, Math.min(1, p || 0)));
 };
+
 window.addEventListener('scroll', updateScrollProgress);
 window.addEventListener('resize', updateScrollProgress);
