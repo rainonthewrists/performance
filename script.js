@@ -1,7 +1,7 @@
 const CONFIG = {
   margin: '20px',
   marginMobile: '10px',
-  indent: '4.62em',
+  indent: '120px',
   indentMobile: '0px',
   defaultCharColor: '#678486',
   titleCharColor: '#000000',
