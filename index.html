@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/styles/reset.css">
-  <link rel="stylesheet" href="/styles/styles.css">
+  <link rel="stylesheet" href="styles.css">
   
   <title>Performance Against Benchmarks</title>
   <link rel="icon" type="image/png" href="/styles/favicon.png">
@@ -32,27 +32,28 @@
   </style>
 </head>
 
-<body style="margin: 0; background: #f4f4f4; font-family: Arial, sans-serif; font-size: clamp(16px, 1.35vw, 30px); line-height: 123%; min-height: 200vh; overflow-x: hidden;">
+<body class="main">
   <!-- <a href="/" class="logo"></a> -->
-  <img src="PAB-logo.svg" alt="Logo" class="logo">
-  <img src="arrow-icon.svg" alt="" class="arrow" aria-hidden="true" width="95" height="50">
   <canvas id="main-canvas"></canvas>
   <div id="scrollable"></div>
 
   <footer>
     <div class="logos">
-      <img style="width: 104px; margin-top: 7px;" src="/styles/WRONG LOGO.png" alt="logo wrong biennale">
-      <img style="width: 170px;" src="/styles/GREENWICH LOGO.png" alt="logo greenwich university">
+      <a href="https://thewrong.org/" target="_blank"><img id="wrong" src="/styles/WRONG LOGO.png" alt="logo wrong biennale"></a>
+      <a href="https://www.gre.ac.uk/research/digital-ecologies" target="_blank"><img id="greenwich" src="/styles/GREENWICH LOGO.png" alt="logo greenwich university"></a>
     </div>
-    <div>
-      <p><a class="grey" href="/essays">essays</a></p>
-      <p><a class="current" href="/">works</a></p>
+    <div class="nav">
       <p><a class="grey" href="/about">about</a></p>
+      <p><a class="current" href="/#open">works</a></p>
+      <p><a class="grey" href="/essays">essays</a></p>
     </div>
   </footer>
 
   <script src="/scripts/prefetch-heavy.js"></script>
   <script src="script.js"></script>
+  <script src="/scripts/hash-bottom-scroll.js"></script>
+
+  <div id="open"></div>
 
 </body>
 </html>
