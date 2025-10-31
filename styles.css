@@ -358,7 +358,6 @@ p{
         (1 - var(--scroll-progress)) * (100% - calc(var(--arrow-side-padding) * 2)) +
         var(--scroll-progress) * var(--arrow-size-after-scroll)
     );
-    aspect-ratio: 95 / 50;
     height: auto;
     top: calc(
         (1 - var(--scroll-progress)) * 50vh +
