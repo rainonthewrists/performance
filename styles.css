@@ -27,7 +27,7 @@ body.main{
   left: 20px;
   width: 100px;
   height: 41px;
-  background-image: url('PAB-logo.svg');
+  background-image: url('styles/PAB-logo.svg');
 }
 
 .secondary_logo{
