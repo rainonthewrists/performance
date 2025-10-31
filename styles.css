@@ -345,3 +345,46 @@ p{
   margin: 80px 20px; 
   max-width: 630px; 
 }
+
+.arrow {
+    --scroll-progress: 0;
+    --arrow-side-padding: 20px;
+    --arrow-size-after-scroll: clamp(50px, 4.95vw, 95px);
+    --arrow-bottom-offset: 30px;
+    --arrow-aspect-factor: calc(25 / 95);
+    position: fixed;
+    left: 50%;
+    width: calc(
+        (1 - var(--scroll-progress)) * (100% - calc(var(--arrow-side-padding) * 2)) +
+        var(--scroll-progress) * var(--arrow-size-after-scroll)
+    );
+    aspect-ratio: 95 / 50;
+    height: auto;
+    top: calc(
+        (1 - var(--scroll-progress)) * 50vh +
+        var(--scroll-progress) * (
+            100vh - var(--arrow-bottom-offset) -
+            calc(var(--arrow-size-after-scroll) * var(--arrow-aspect-factor))
+        )
+    );
+    transform: translate(-50%, -50%) rotate(calc(var(--scroll-progress) * 180deg));
+    z-index: 0;
+    pointer-events: none;
+    transition: top 0.1s ease-out, width 0.1s ease-out, transform 0.1s ease-out;
+}
+
+@media (max-width: 800px) {
+    .logo { 
+        display: none; 
+    }
+    .arrow {
+        --arrow-side-padding: 10px;
+        --arrow-size-after-scroll: 95px;
+        --arrow-bottom-offset: 100px;
+
+        top: calc(
+            (1 - var(--scroll-progress)) * (50vh - 100px) +
+            var(--scroll-progress) * 620px
+        );
+    }
+}
