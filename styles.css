@@ -374,9 +374,6 @@ p{
 }
 
 @media (max-width: 800px) {
-    .logo { 
-        display: none; 
-    }
     .arrow {
         --arrow-side-padding: 10px;
         --arrow-size-after-scroll: 95px;
