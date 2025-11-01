@@ -586,3 +586,9 @@ p{
     );
   }
 }
+
+@media screen and (max-width: 800px) {
+  body.main .logo {
+    display: none;
+  }
+}
