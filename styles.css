@@ -8,7 +8,7 @@ body.main{
   margin: 0; 
   background: #f4f4f4; 
   font-family: Arial, sans-serif; 
-  font-size: clamp(16px, 1.35vw, 26px); 
+  font-size: clamp(16px, 1.35vw, 25px); 
   line-height: 123%; 
   min-height: 200vh; 
   overflow-x: hidden;
