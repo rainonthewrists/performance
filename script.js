@@ -8,7 +8,7 @@ const CONFIG = {
   scrollCharColor: '#1eff00',
   hoverBgColor: '#1eff00',
   animationDuration: 3000,
-  symbolText: '◍',
+  symbolText: 'о',
   noTitleSymbol: '.,',
   titleText: "Performance against Benchmarks".toUpperCase(),
   scrollText: " Scroll ▼".toUpperCase(),
