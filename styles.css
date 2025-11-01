@@ -27,7 +27,7 @@ body.main{
   left: 20px;
   width: clamp(70px, 5vw, 100px);
   aspect-ratio: 100/41;
-  background-image: url('PAB-logo.svg');
+  background-image: url('styles/PAB-logo.svg');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
