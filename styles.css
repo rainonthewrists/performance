@@ -373,7 +373,7 @@ p{
 }
 @media (max-width: 800px) {
   .arrow {
-    --arrow-side-padding: 10px;
+    --arrow-side-padding: 20px;
     --arrow-size-after-scroll: 95px;
     --arrow-bottom-offset: 100px;
     top: calc(
