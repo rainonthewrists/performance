@@ -16,7 +16,7 @@ const CONFIG = {
 };
 
 const titlesData = [
-  { work: "Autonomy of a Fall", artist: "Soyun Park   &   Olympia Kotopoulos   &   Bregje Benecke", symbols: "scrl⛶⬊", url: "./autonomy-of-a-fall/" },
+  { work: "Autonomy of a Fall !!!", artist: "Soyun Park   &   Olympia Kotopoulos   &   Bregje Benecke", symbols: "scrl⛶⬊", url: "./autonomy-of-a-fall/" },
   { work: "Curse of Dimensionality", artist: "Philipp Schmitt", symbols: "▣∃∰", url: "./curse-of-dimensionality/" },
   { work: "Dandelions", artist: "David Young", symbols: "∎◍⏵◎", url: "./dandelions/" },
   { work: "For Ruth & Violette", artist: "Paul O'Neill", symbols: "◉◍⚿◎", url: "./for-ruth-and-violette/" },
