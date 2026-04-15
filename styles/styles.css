@@ -187,7 +187,7 @@ body.archived .link_banner {
 
   a {
     font-family: Arial, sans-serif;
-    font-size: 70px;
+    font-size: clamp(32px, 3.65vw, 70px);
     text-transform: uppercase;
     text-decoration: none;
     color: black;
