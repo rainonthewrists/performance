@@ -168,6 +168,10 @@ p{
   transform: rotate(180deg);
 }
 
+body.archived .arrow_btn {
+  visibility: hidden;
+}
+
 .black { color: #202020; }
 .grey { color: #678486; }
 
