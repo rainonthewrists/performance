@@ -16,6 +16,9 @@ function initInfo(){
 
   const container = document.createElement('div');
   container.classList.add('project_info_container');
+  if (document.body.classList.contains('archived')) {
+    container.classList.add('open');
+  }
   container.addEventListener('click', (e) => {
     container.classList.toggle('open');
     // Check if container is now open
