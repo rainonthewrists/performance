@@ -172,6 +172,28 @@ body.archived .arrow_btn {
   visibility: hidden;
 }
 
+body.archived .link_banner {
+  position: fixed;
+  top: 40px;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background-color: #00FF00;
+  z-index: 998;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+
+  a {
+    font-family: Arial, sans-serif;
+    font-size: clamp(32px, 3.65vw, 70px);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: black;
+  }
+}
+
 .black { color: #202020; }
 .grey { color: #678486; }
 
