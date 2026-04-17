@@ -182,7 +182,13 @@ body.archived .link_banner {
   box-sizing: border-box;
   z-index: 998;
 
-  p {
+  a {
+    display: inline-block;
+    padding: 10px 20px;
+    white-space: normal;
+    word-wrap: break-word;
+    max-width: 100%;
+    
     font-family: Arial, sans-serif;
     font-size: clamp(28px, 3.35vw, 56px);
     line-height: 123%;
