@@ -20,6 +20,7 @@ function initInfo(){
     container.classList.add('open');
   }
   container.addEventListener('click', (e) => {
+    if (document.body.classList.contains('archived')) return;
     container.classList.toggle('open');
     // Check if container is now open
     const isOpen = container.classList.contains('open');
