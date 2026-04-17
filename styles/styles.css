@@ -189,7 +189,7 @@ body.archived .link_banner {
     max-width: 100%;
     
     font-family: Arial, sans-serif;
-    font-size: clamp(30px, 3.35vw, 56px);
+    font-size: clamp(32px, 3.35vw, 56px);
     text-transform: uppercase;
     text-decoration: none;
     color: black;
