@@ -182,10 +182,10 @@ body.archived .link_banner {
   box-sizing: border-box;
   z-index: 998;
 
-  a {
-    display: block;
+  p {
     font-family: Arial, sans-serif;
     font-size: clamp(28px, 3.35vw, 56px);
+    line-height: 123%;
     text-transform: uppercase;
     text-decoration: none;
     color: black;
