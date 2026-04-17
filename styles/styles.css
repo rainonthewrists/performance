@@ -186,20 +186,11 @@ body.archived .link_banner {
 
   a {
     font-family: Arial, sans-serif;
-    font-size: clamp(16px, 3.65vw, 70px);
+    font-size: clamp(36px, 3.35vw, 64px);
     text-transform: uppercase;
     text-decoration: none;
     color: black;
   }
-}
-
-body.archived .project_info_container {
-  pointer-events: none;
-  cursor: default;
-}
-
-body.archived .project_info_container a {
-  pointer-events: auto;
 }
 
 .black { color: #202020; }
@@ -549,6 +540,10 @@ body.archived .project_info_container a {
   }
   .project_info_container.open .arrow_btn{
     top: 100px;
+  }
+
+  body.archived .link_banner a {
+    font-size: clamp(16px, 1.35vw, 26px);
   }
 
   .grid_3x3{
