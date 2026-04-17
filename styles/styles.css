@@ -542,6 +542,10 @@ body.archived .link_banner {
     top: 100px;
   }
 
+  body.archived .link_banner {
+    bottom: calc(100dvh - 90px);
+  }
+
   body.archived .link_banner a {
     font-size: clamp(16px, 1.35vw, 26px);
   }
