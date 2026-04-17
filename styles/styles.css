@@ -179,18 +179,16 @@ body.archived .link_banner {
   right: 0;
   padding: 10px 20px;
   background-color: #00FF00;
-  z-index: 998;
-  display: flex;
-  align-items: center;
   box-sizing: border-box;
+  z-index: 998;
 
   a {
+    display: block;
     font-family: Arial, sans-serif;
     font-size: clamp(28px, 3.35vw, 56px);
     text-transform: uppercase;
     text-decoration: none;
     color: black;
-    width: 100%;
   }
 }
 
