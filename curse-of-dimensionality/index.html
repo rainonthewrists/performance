@@ -16,34 +16,7 @@
       reconstructions.decontextualize.com⬈
     </a>
   </div>
-  <div class="art_container short">
-    <iframe 
-      class="art"
-      data-src="" 
-      allow="camera; microphone; fullscreen; autoplay">
-    </iframe>
-  </div>
   
-  <script>
-    (function() {
-      var iframe = document.querySelector('iframe.art');
-      if (!iframe) return;
-      var url = iframe.getAttribute('data-src');
-      if (!url) return;
-      function setSrc() {
-        requestAnimationFrame(function() {
-          requestAnimationFrame(function() {
-            iframe.src = url;
-          });
-        });
-      }
-      if (document.readyState === 'complete') {
-        setSrc();
-      } else {
-        window.addEventListener('load', setSrc, { once: true });
-      }
-    })();
-  </script>
   <script type="module" src="/performance/scripts/project_info.js"></script>
   
 </body>
